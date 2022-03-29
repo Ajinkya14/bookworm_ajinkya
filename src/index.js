@@ -9,7 +9,9 @@ import Footer from './pages/Footer';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Navigationbar/>
     <App/>
+    <Footer/>
   </React.StrictMode>,
   document.getElementById('root')
 );

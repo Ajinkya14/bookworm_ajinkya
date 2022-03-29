@@ -2,25 +2,20 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
-export function Payment (props) 
+export function Payment () 
 {
-  const [product, setProduct] = useState([]);
+  const uid=1;
   const [total, setTotal] = useState(0);
   useEffect(() => 
   {
-
-    setProduct(props.prod)
-    setTotal(0)
-    product.map((prod) => {
-        console.log(total)
-        setTotal((c) => c + prod.price)
-       
-    })
-  })
+    fetch("http://localhost:8080/crud/totalfromcart/"+uid)
+    .then(res=>res.json())
+    .then((result)=>{setTotal(result);
+    console.log(total);})
+  });
   const handleSubmit=()=>{
     alert("Payment Successful")
   }
-
     return (
 
       <div className="maincontainer">

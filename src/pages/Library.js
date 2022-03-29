@@ -1,97 +1,120 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Col, Container, Row,Button } from "react-bootstrap";
-import Bookcases from './Bookcases.jpg';
+import { Col, Container, Row, Button, Card ,Alert } from "react-bootstrap";
+import {Link} from "react-router-dom";
+import salemslot from './salemslot.jpg';
 
-function Library()
-{
-    const [genere,setGenere]= useState(1);
-    console.log(genere);
-    const changeGenre=useCallback((value)=>{
+function Library() {
+    const [lang, setlang] = useState(0);
+    console.log(lang);
+    const changeGenre = useCallback((value) => {
         //console.log(value)
-        setGenere(value);
-        // console.log(genere);
-    },[genere]);
-    return(
-        <Container fluid style={{textAlign:'left'}}>
-            <Row style={{padding:'20px'}}>
-                <Col ><h2><b>bookWorm</b></h2></Col>
-                <Col xs={9}><h2>Books</h2></Col>
+        setlang(value);
+        // console.log(lang);
+    }, [lang]);
+    return (
+        <Container fluid style={{ textAlign: 'left' }}>
+            <Row style={{ padding: '20px' }}>
+                <Col xs={2}><h2><b>bookWorm</b></h2></Col>
+                <Col xs={8}><h2>Books</h2></Col>
+                <Col xs={2}><Link to="/Cart"> <Button variant="primary" style={{align:'right'}}>Visit Cart{'>'}</Button></Link></Col>
             </Row>
             <Row>
-                <Col ><h2><b><GenereSelector updateGenere={changeGenre} genere={genere}/></b></h2></Col>
-                <Col xs={9}><h2><BooksDisplay genere={genere}/></h2></Col>
+                <Col xs={2}><h2><b><LangSelector updatelang={changeGenre} lang={lang} /></b></h2></Col>
+                <Col xs={9}><h2><BooksDisplay lang={lang} /></h2></Col>
             </Row>
         </Container>
     );
 }
 
-function GenereSelector({updateGenere,genere})
-{
-    // const [newgenere,setnewgenere]=useState(genere);
-    // console.log(newgenere)
-    const updateNewGenere=(value)=>{
+function LangSelector({ updatelang, lang }) {
+    // const [newlang,setnewlang]=useState(lang);
+    // console.log(newlang)
+    const updateNewlang = (value) => {
         // console.log(value);
-        // setnewgenere(value);
-        updateGenere(value);
+        // setnewlang(value);
+        updatelang(value);
     };
-    return(
-        <Container fluid style={{paddingTop:'100px'}}>
-            <Row>
-            <h1 style={{textAlign:'left'}}><Button variant="light" onClick={()=>{updateNewGenere(1);}} value="novalue"><b>All Books</b></Button></h1>
+    return (
+        <Container fluid style={{ paddingTop: '100px' }}>
+            <Row style={{paddingBottom:"20px"}}>
+                <Button variant="light" onClick={() => { updateNewlang(0); }} value="novalue"><h5 style={{ textAlign: 'left' }}><b>All Books</b></h5></Button>
             </Row>
-            <Row>
-            <h1 style={{textAlign:'left'}}><Button variant="light" onClick={()=>{updateNewGenere(4);}} value="history"><b>History</b></Button></h1>
+            <Row style={{paddingBottom:"20px"}}>
+                <Button variant="light" onClick={() => { updateNewlang(1); }} value="English"><h5 style={{ textAlign: 'left' }}><b>English</b></h5></Button>
             </Row>
-            <Row>
-            <h1 style={{textAlign:'left'}}><Button variant="light" onClick={()=>{updateNewGenere(5);}} value="biopics"><b>Biopics</b></Button></h1>
+            <Row style={{paddingBottom:"20px"}}>
+                <Button variant="light" onClick={() => { updateNewlang(2); }} value="Hindi"><h5 style={{ textAlign: 'left' }}><b>Hindi</b></h5></Button>
             </Row>
-            <Row>
-            <h1 style={{textAlign:'left'}}><Button variant="light" onClick={()=>{updateNewGenere(3);}} value="horror"><b>Horror</b></Button></h1>
+            <Row style={{paddingBottom:"20px"}}>
+                <Button variant="light" onClick={() => { updateNewlang(3); }} value="Marathi"><h5 style={{ textAlign: 'left' }}><b>Marathi</b></h5></Button>
+            </Row>
+            <Row style={{paddingBottom:"20px"}}>
+                <Button variant="light" onClick={() => { updateNewlang(4); }} value="Kokani"><h5 style={{ textAlign: 'left' }}><b>Kokani</b></h5></Button>
             </Row>
         </Container>
     );
 }
 
-function BooksDisplay({genere})
-{
+function BooksDisplay({ lang }) {
 
-    const [books,setBooks]=useState([]);
-    console.log(genere)
+    const [books, setBooks] = useState([]);
+    // const []
+    console.log(lang)
     useEffect(() => {
-        if(genere!=1)
-        {
-        fetch("https://localhost:44363/api/Products/"+genere)
-            .then(res => res.json())
-            .then((result) => { setBooks(result); });}
-        else{
-            fetch("https://localhost:44363/api/Products/")
-            .then(res => res.json())
-            .then((result) => { setBooks(result); });
+        if (lang != 0) {
+            fetch("http://localhost:8080/crud/searchlang/" + lang)
+                .then(res => res.json())
+                .then((result) => { setBooks(result); });
         }
-    },[genere]);
-    return(
-    <Container fluid>
-        <Row>
-            <img src={Bookcases} alt="displayimg"></img>
-        </Row>
-        <Row>
-        <table>
-            <tbody>
-        {books.map(book=>(
-            
-            <tr key={book.id}>
-                <td><h3 style={{fontSize:"30px"}}>{book.product_name}</h3>
-                <h6><label>Base Price:</label>{book.product_baseprice} Rs</h6>
-                <h5><label>Special Price:</label>{book.product_sp_cost} Rs</h5>
-                <h5><label>Offer Price:</label><b>{book.product_offerprice}</b> Rs expires on {book.product_offerprice_expiry}</h5><hr></hr>
-                </td>
-            </tr>
-            
-        ))}
-        </tbody>
-            </table>
-        </Row>
-    </Container>
+        else {
+            fetch("http://localhost:8080/crud/products")
+                .then(res => res.json())
+                .then((result) => { setBooks(result); });
+        }
+    }, [lang]);
+
+    // let navigate = useNavigate();
+
+    const submitHandler=(id)=>{
+        const cart={'productId':id,'userId':1}
+        const url="http://localhost:8080/crud/addtocart"
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cart)
+        };
+        fetch(url,requestOptions)
+        .then(response => alert('Added to cart successfully'))
+        .catch(error => console.log('Form submit error: ', error))
+        // Navigate('/');
+    
+    }
+    return (
+        <Container fluid>
+            {/* <Row>
+                <img src={Bookcases} alt="displayimg"></img>
+            </Row> */}
+            <Row>
+                {books.map(book => (
+
+                    <Col xs={3}>
+                        <Card >
+                        {/* <Card.Img variant="top" src={book.productImage+"/190px280"} /> */}
+                            <img src={book.productImage}></img>
+                            {/* keep image size horizontal 190 px */}
+                            <Card.Body>
+                            <Link to={"/Description/"+book.productId}><Card.Title>{book.productName}</Card.Title></Link>
+                                <Card.Text>
+                                    <h6>{book.productDescShort}</h6>
+                                </Card.Text>
+                                <Button variant="primary" onClick={()=>{submitHandler(book.productId)}}>Add to Cart</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+
+                ))}
+            </Row>
+        </Container>
     );
 }
 

@@ -1,0 +1,41 @@
+
+/* .card {
+  margin-bottom: 30px;
+  border: 0px;
+ 
+} */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: rgb(255, 255, 255);
+  background-clip: border-box;
+  border-radius: 0;
+
+}
+.card .card-title{
+  text-align: center;
+}
+.card .card-subtitle {
+  font-weight: 300;
+  margin-bottom: 10px;
+  color: #8898aa;
+  text-align: left;
+}
+.table-product.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f3f8fa!important
+}
+.table-product td{
+  border-top: 0px solid #dee2e6 !important;
+  color: #728299!important;
+}
+
+.btn
+{
+  margin-left: 15px;
+}
+.col-lg-7 col-md-7 col-sm-6{
+  text-align: center;
+}

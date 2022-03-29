@@ -1,0 +1,82 @@
+[
+    {
+        "product_name": "BookName1",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov1.png",
+        "type_desc": "book",
+        "product_baseprice":"500"
+    },
+    {
+        "product_name": "BookName2",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov2.jfif",
+        "type_desc": "book",
+        "product_baseprice":"500"
+    },
+    {
+        "product_name": "BookName3",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov2.jfif",
+        "type_desc": "book",
+        "product_baseprice":"100"
+    },
+    {
+        "product_name": "BookName4",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov4.jfif",
+        "type_desc": "book",
+        "product_baseprice":"200"
+    },
+    {
+        "product_name": "BookName5",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov1.png",
+        "type_desc": "book",
+        "product_baseprice":"300"
+    },
+    {
+        "product_name": "BookName6",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov1.png",
+        "type_desc": "ebook",
+        "product_baseprice":"600"
+    },
+    {
+        "product_name": "BookName7",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov1.png",
+        "type_desc": "audio book",
+        "product_baseprice":"1500"
+    },
+    {
+        "product_name": "BookName8",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov1.png",
+        "type_desc": "audio book",
+        "product_baseprice":"700"
+    },
+    {
+        "product_name": "BookName9",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov1.png",
+        "type_desc": "ebook",
+        "product_baseprice":"550"
+    },
+    {
+        "product_name": "BookName10",
+        "first_name": "author",
+        "last_name": "name",
+        "img": "cov1.png",
+        "type_desc": "ebook",
+        "product_baseprice":"300"
+    }
+]

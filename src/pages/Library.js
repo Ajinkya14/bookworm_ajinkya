@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Col, Container, Row, Button, Card ,Alert } from "react-bootstrap";
 import {Link} from "react-router-dom";
-import salemslot from './salemslot.jpg';
 
 function Library() {
     const [lang, setlang] = useState(0);
@@ -35,7 +34,7 @@ function LangSelector({ updatelang, lang }) {
         updatelang(value);
     };
     return (
-        <Container fluid style={{ paddingTop: '100px' }}>
+        <Container style={{ paddingTop: '100px' }}>
             <Row style={{paddingBottom:"20px"}}>
                 <Button variant="light" onClick={() => { updateNewlang(0); }} value="novalue"><h5 style={{ textAlign: 'left' }}><b>All Books</b></h5></Button>
             </Row>
@@ -76,7 +75,7 @@ function BooksDisplay({ lang }) {
     // let navigate = useNavigate();
 
     const submitHandler=(id)=>{
-        const cart={'productId':id,'userId':1}
+        const cart={'productId':id,'userId':1,'isSelected':'n'}
         const url="http://localhost:8080/crud/addtocart"
         const requestOptions = {
             method: 'POST',
@@ -97,17 +96,20 @@ function BooksDisplay({ lang }) {
             <Row>
                 {books.map(book => (
 
-                    <Col xs={3}>
-                        <Card >
+                    <Col xs={3} style={{padding:"5px"}}>
+                        <Card>
                         {/* <Card.Img variant="top" src={book.productImage+"/190px280"} /> */}
-                            <img src={book.productImage}></img>
+                            <img src={book.productImage} height="280px" width="190px"></img>
                             {/* keep image size horizontal 190 px */}
                             <Card.Body>
-                            <Link to={"/Description/"+book.productId}><Card.Title>{book.productName}</Card.Title></Link>
+                            <Link to={"/Description/"+book.productId} style={{textDecorationLine:"none"}}>
+                            <Card.Title>{book.productName}</Card.Title>
                                 <Card.Text>
-                                    <h6>{book.productDescShort}</h6>
+                                    <h6 style={{textAlign:"center"}}>{book.productDescShort}</h6>
                                 </Card.Text>
-                                <Button variant="primary" onClick={()=>{submitHandler(book.productId)}}>Add to Cart</Button>
+                                </Link>
+                                <div style={{paddingLeft:"25px"}}>
+                                <Button variant="primary"  onClick={()=>{submitHandler(book.productId)}} >Add to Cart</Button></div>
                             </Card.Body>
                         </Card>
                     </Col>

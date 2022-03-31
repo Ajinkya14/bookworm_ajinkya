@@ -15,7 +15,7 @@ export default function Book({d}) {
                     <Col xs={2} style={{padding:"5px"}}>
                         <Card >
                         {/* <Card.Img variant="top" src={book.productImage+"/190px280"} /> */}
-                            <img src={book[1].productImage} height="280px" width="190px"></img>
+                            <img src={book[1].productImage} height="280px" ></img>
                             {/* keep image size horizontal 190 px */}
                             <Card.Body>
                             <Card.Title>{book[1].productName}</Card.Title>

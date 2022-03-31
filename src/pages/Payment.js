@@ -14,7 +14,7 @@ export function Payment (props)
   const [payStatus,setPayStatus]=useState(false)
   const navigate= useNavigate();
 
-  const uid=1;
+  const uid=sessionStorage.getItem("UserId");
   useEffect(() => 
   {
     fetch("http://localhost:8080/crud/totalfromcart/"+uid)

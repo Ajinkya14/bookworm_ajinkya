@@ -13,7 +13,7 @@ export function Invoice(props)
     const [tot,setTot]=useState(0); 
     const [invId,setInvId]=useState(0); 
     const [invDt,setInvDt]=useState(0);
-    const uid=1;
+    const uid=sessionStorage.getItem("UserId");
     
     const [cartItems,setCartItems]=useState([]);
 

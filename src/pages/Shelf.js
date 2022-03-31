@@ -7,11 +7,11 @@ export default function Shelf() {
  
   const [data, setData] = useState([]);
   const [fdata, setFdata] = useState([]);
-  const  id=1;
+  const  uid=sessionStorage.getItem("UserId");
  useEffect(() => 
  {
     
-    const url='http://localhost:8080/crud/shelf/'+id;
+    const url='http://localhost:8080/crud/shelf/'+uid;
   
     // fetch('./trial2.json')
     fetch(url)

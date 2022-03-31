@@ -10,7 +10,7 @@ export default function Cart(props){
     const [total,setTotal]=useState("");
     
     
-    
+    //use effect Hook
     useEffect(()=>{
         fetch("http://localhost:8080/crud/productsfromcart/"+uid)
         .then(res => res.json())

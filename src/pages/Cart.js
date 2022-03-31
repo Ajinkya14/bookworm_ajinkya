@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { Table ,Button, Container, Row,Col} from 'react-bootstrap';
 import { Link } from "react-router-dom";
 export default function Cart(props){
-    const uid=1;
+    const uid=sessionStorage.getItem("UserId");
+    // const uid=1;
     const [delcount,setDelcount]=useState(0);
     const [cartItems,setCartItems]=useState([]);
     const [selectCount,setSelectCount]=useState(0);

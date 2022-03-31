@@ -99,7 +99,7 @@ function BooksDisplay({ lang }) {
                     <Col xs={3} style={{padding:"5px"}}>
                         <Card>
                         {/* <Card.Img variant="top" src={book.productImage+"/190px280"} /> */}
-                            <img src={book.productImage} height="280px" width="190px"></img>
+                            <img src={book.productImage} height="280px"></img>
                             {/* keep image size horizontal 190 px */}
                             <Card.Body>
                             <Link to={"/Description/"+book.productId} style={{textDecorationLine:"none"}}>

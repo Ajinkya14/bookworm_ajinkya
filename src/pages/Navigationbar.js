@@ -25,6 +25,11 @@ function Navigationbar()
       <Nav.Link href="/Signup">Signup</Nav.Link>
       <Nav.Link href="/Login">Login</Nav.Link>
       <Nav.Link href="/Cart">Cart</Nav.Link>
+      <Nav.Link href="/Login" onClick={()=>{sessionStorage.removeItem("UserId");
+      sessionStorage.removeItem("RoleId");
+      sessionStorage.removeItem("UserName")
+      sessionStorage.setItem("IsLoggedIn",false)}
+      }>Logout</Nav.Link>
     </Nav>
   </Navbar.Collapse>
   

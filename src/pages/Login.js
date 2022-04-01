@@ -61,15 +61,15 @@ function Login() {
               url = "http://localhost:8080/crud/benificiarysearch/";
               console.log(url)
             event.preventDefault();
-            fetch(url+user.ben_userName)
+            fetch(url+user.userName)
           .then(res=>res.json())
           .then((result)=>{
             setCustomer(result)
             console.log(result)
-            if(user.ben_userName == result.ben_userName && result.ben_password == user.ben_password)
+            if(user.userName == result.userName && result.password == user.password)
             {
-              sessionStorage.setItem("UserName", result.ben_userName);
-              sessionStorage.setItem("UserId", result.ben_id);
+              sessionStorage.setItem("UserName", result.userName);
+              sessionStorage.setItem("UserId", result.userId);
               sessionStorage.setItem("RoleId", 2);
               sessionStorage.setItem("IsLoggedIn",true)
               alert("You have successfully logged in !!!!")
@@ -134,11 +134,11 @@ const ChangeButton = (props) => {
   {
  return <>
         <div className="form-group">
-          <input type="text" className="form-control" name="ben_userName" placeholder="User ID" required="required"
+          <input type="text" className="form-control" name="userName" placeholder="User ID" required="required"
             onChange={handleChange} />
         </div>
         <div className="form-group">
-          <input type="password" className="form-control" name="ben_password" placeholder="Password"
+          <input type="password" className="form-control" name="password" placeholder="Password"
             required="required" onChange={handleChange} />
         </div>
         <div className="form-group">

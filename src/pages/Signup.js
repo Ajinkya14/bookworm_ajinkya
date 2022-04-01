@@ -7,21 +7,11 @@ import { useParams,useNavigate } from "react-router-dom";
 import { useState } from "react";
 import './Signup.css';
 
-
-
+                    
 function Signup(){
-  const [user, setUser] = useState({role_id:1});
+  const [user, setUser] = useState({roleId:1});
   const [usertype,SetUserType]= useState(true);
 
-//   onLButtonClick=()=>{
-//       SetUserType(usertype=true);
-//   }
-//   onRButtonClick=()=>{
-//     SetUserType(usertype=false);
-// }
-
-  
-  //const { id } = useParams();
   let navigate = useNavigate();
  
   const handleChange = (event) => {
@@ -29,20 +19,29 @@ function Signup(){
       const value = event.target.value;
       setUser(values => ({ ...values, [name]: value }))
   }
-  const handleSubmit = event => {
-      
-  alert("on submit");
-      const url = 'https://localhost:44385/api/User_Details/'
-      const requestOptions = {
+  const handleSubmit = event => 
+  {
+    console.log(user.emailId +" ")
+  alert("on submit signup "+ user.roleId);
+   if(user.roleId=1)
+       var url = 'http://localhost:8080/crud/useradd'
+      if(user.roleId=2)
+       url = 'http://localhost:8080/crud/addbeneficiary'
+      const requestOptions = 
+      {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(user)
       };
+      console.log(user.emailId +" Before ")
       fetch(url, requestOptions)
           .then(response => console.log('Submitted successfully'))
           .catch(error => console.log('Form submit error: ', error))
           navigate("/")
           console.log(user);
+          
+          console.log(user.emailId +" ")
+          alert("on submit signup 2");
           // event.preventDefault();
     };
     
@@ -52,69 +51,56 @@ function Signup(){
       if (event.target.value == "user")
       {
         SetUserType(true);
-        setUser({role_id: 1})
+        setUser({roleId: 1})
+        
       }
        else 
        {
        SetUserType(false);
-       setUser({role_id: 2})
+       setUser({roleId: 2})
        alert(usertype);
        }
         };
         
 
   return (
-     
-
-     
-    <div class="signup-form">
-        
+    <div class="signup-form">     
     <form onSubmit={handleSubmit}>
-    <div class="btn-group">
-  <button  value="user" onClick={onButton} class="button">User</button>
-  <button value="publisher" onClick={onButton} class="button">Publisher</button>
-  
-</div>
+        
+    <div class="btn-group" >
+  <button id="bt1"  value="user" onClick={onButton} class="button">User</button>
+  <button id="bt2" value="publisher" onClick={onButton} class="button">Publisher</button>
+    </div>
 		<h2>Sign Up</h2>
 		<p>Please fill in this form to create an account!</p>
-	
+    <ChangeButton isClicked={usertype} handleChange2={handleChange}/>
+        
+       
+
+        
+              
         <div class="form-group">
-        <ChangeButton isClicked={usertype} handleChange2={handleChange}/>
-      	
-        </div>
-        <div class="form-group">
-        	<input type="email" class="form-control" name="email_id" placeholder="Email" required="required"
-            onChange={handleChange}/>
-        </div>
-        <div class="form-group">
-        	<input type="text" class="form-control" name="user_id" placeholder="User ID" required="required"
-            onChange={handleChange}/>
-        </div>
-		<div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="Password" 
-            required="required" onChange={handleChange}/>
-        </div>
-		<div class="form-group">
-            <input type="mobile" class="form-control" name="mobile_no" 
-            placeholder="8888888888" required="required" onChange={handleChange}/>
-        </div>        
-        <div class="form-group">
-			<label class="checkbox-inline"><input type="checkbox" name="role_id" required="required"/> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+			<label class="checkbox-inline"><input type="checkbox" name="roleId" required="required"/> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
 		</div>
 		<div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+            <button type="submit" class="btn-grad">Sign Up</button>
         </div>
     </form>
 	<div class="hint-text">Already have an account? <a href="/Login">Login here</a></div>
+    
+
 </div>
-      
+
+    
   );
 }
 const ChangeButton = (props) => {
      let { isClicked,handleChange2} = props;
      if (isClicked) 
      {
-    return <div class="row">
+    return <>
+<div class="form-group">
+    <div class="row">
     <div  class="col">
         <input type="text" onChange={handleChange2} class="form-control" name="first_name" 
         placeholder="First Name" required="required" /></div>
@@ -122,16 +108,234 @@ const ChangeButton = (props) => {
     <div class="col">
         <input type="text" onChange={handleChange2} class="form-control " name="last_name" 
         placeholder="Last Name" required="required" /></div>
-</div> ;
+</div>
+</div>
+
+<div class="form-group">
+<input type="email" class="form-control" name="email_id" placeholder="Email" required="required"
+  onChange={handleChange2}/>
+</div>
+<div class="form-group">
+<input type="text" class="form-control" name="user_name" placeholder="User ID" required="required"
+  onChange={handleChange2}/>
+</div>
+<div class="form-group">
+  <input type="password" class="form-control" name="password" placeholder="Password" 
+  required="required" onChange={handleChange2}/>
+</div>
+<div class="form-group">
+  <input type="mobile" class="form-control" name="mobile_no" 
+  placeholder="8888888888" required="required" onChange={handleChange2}/>
+</div>  
+   
+</>
+;
      } 
 
    else {
-    return <div class="row">
-    <div  class="col">
-        <input type="text" onChange={handleChange2} class="form-control" name="first_name" 
+    return <>
+    
+    <div class="form-group">
+        <input type="text" onChange={handleChange2} class="form-control" name="ben_name" 
         placeholder="Publication Name" required="required" /></div>
-        </div>;
+        
+        <div class="form-group">
+<input type="text" class="form-control" name="emailId" placeholder="Email" required="required"
+  onChange={handleChange2}/>
+</div>
+<div class="form-group">
+  <input type="mobile" class="form-control" name="ben_Contact_no" 
+  placeholder="Mobile Number" required="required" onChange={handleChange2}/>
+</div>  
+<div class="form-group">
+  <div class="row">
+  <div class="col">
+<input type="text" class="form-control" name="ben_user_name" placeholder="User ID" required="required"
+  onChange={handleChange2}/>
+</div>
+<div class="col">
+  <input type="password" class="form-control" name="ben_password" placeholder="Password" 
+  required="required" onChange={handleChange2}/>
+  </div>
+</div>
+</div>
+<div class="form-group">
+<div class="row">
+    <div  class="col">
+  <input type="text" class="form-control" name="ben_bank_name" placeholder="Bank Name" 
+  required="required" onChange={handleChange2}/>
+</div>
+<div  class="col">
+  <input type="text" class="form-control" name="ben_bank_Branch" placeholder="Bank Branch" 
+  required="required" onChange={handleChange2}/>
+</div>
+</div>
+</div>
+<div class="form-group">
+<div class="row">
+    <div  class="col">
+  <input type="text" class="form-control" name="ben_IFSC" placeholder="IFSC Code" 
+  required="required" onChange={handleChange2}/>
+  </div>
+<div class="col">
+  <input type="text" class="form-control" name="ben_Acc_Type" placeholder="Account Type" 
+  required="required" onChange={handleChange2}/>
+</div>
+</div>
+</div>
+<div class="form-group">
+  <input type="text" class="form-control" name="ben_AccNo" placeholder="Account Number" 
+  required="required" onChange={handleChange2}/>
+</div>
+
+<div class="form-group">
+  <input type="text" class="form-control" name="ben_PAN" placeholder="PAN Number" 
+  required="required" onChange={handleChange2}/>
+</div>
+
+
+        </>
+           ;
  }
     };
     
  export default Signup;
+
+
+// import {Form,Button,Row,Col,InputGroup, Container} from "react-bootstrap";
+// import React from 'react';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import { Formik } from "formik";
+// import * as yup from 'yup';
+// import { useParams,useNavigate } from "react-router-dom";
+// import { useState } from "react";
+// import './Signup.css';
+
+
+
+// function Signup(){
+//   const [user, setUser] = useState({roleId:1});
+//   const [usertype,SetUserType]= useState(true);
+
+// //   onLButtonClick=()=>{
+// //       SetUserType(usertype=true);
+// //   }
+// //   onRButtonClick=()=>{
+// //     SetUserType(usertype=false);
+// // }
+
+  
+//   //const { id } = useParams();
+//   let navigate = useNavigate();
+ 
+//   const handleChange = (event) => {
+//       const name = event.target.name;
+//       const value = event.target.value;
+//       setUser(values => ({ ...values, [name]: value }))
+//   }
+//   const handleSubmit = event => {
+      
+//   alert("on submit");
+//       const url = 'https://localhost:44385/api/User_Details/'
+//       const requestOptions = {
+//           method: 'POST',
+//           headers: { 'Content-Type': 'application/json' },
+//           body: JSON.stringify(user)
+//       };
+//       fetch(url, requestOptions)
+//           .then(response => console.log('Submitted successfully'))
+//           .catch(error => console.log('Form submit error: ', error))
+//           navigate("/")
+//           console.log(user);
+//           // event.preventDefault();
+//     };
+    
+
+//    const onButton= (event) => {
+//        alert(event.target.value)
+//       if (event.target.value == "user")
+//       {
+//         SetUserType(true);
+//         setUser({roleId: 1})
+//       }
+//        else 
+//        {
+//        SetUserType(false);
+//        setUser({roleId: 2})
+//        alert(usertype);
+//        }
+//         };
+        
+
+//   return (
+     
+
+     
+//     <div class="signup-form">
+        
+//     <form onSubmit={handleSubmit}>
+//     <div class="btn-group">
+//   <button  value="user" onClick={onButton} class="button">User</button>
+//   <button value="publisher" onClick={onButton} class="button">Publisher</button>
+  
+// </div>
+// 		<h2>Sign Up</h2>
+// 		<p>Please fill in this form to create an account!</p>
+	
+//         <div class="form-group">
+//         <ChangeButton isClicked={usertype} handleChange2={handleChange}/>
+      	
+//         </div>
+//         <div class="form-group">
+//         	<input type="email" class="form-control" name="email_id" placeholder="Email" required="required"
+//             onChange={handleChange}/>
+//         </div>
+//         <div class="form-group">
+//         	<input type="text" class="form-control" name="user_id" placeholder="User ID" required="required"
+//             onChange={handleChange}/>
+//         </div>
+// 		<div class="form-group">
+//             <input type="password" class="form-control" name="password" placeholder="Password" 
+//             required="required" onChange={handleChange}/>
+//         </div>
+// 		<div class="form-group">
+//             <input type="mobile" class="form-control" name="mobile_no" 
+//             placeholder="8888888888" required="required" onChange={handleChange}/>
+//         </div>        
+//         <div class="form-group">
+// 			<label class="checkbox-inline"><input type="checkbox" name="roleId" required="required"/> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+// 		</div>
+// 		<div class="form-group">
+//             <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+//         </div>
+//     </form>
+// 	<div class="hint-text">Already have an account? <a href="/Login">Login here</a></div>
+// </div>
+      
+//   );
+// }
+// const ChangeButton = (props) => {
+//      let { isClicked,handleChange2} = props;
+//      if (isClicked) 
+//      {
+//     return <div class="row">
+//     <div  class="col">
+//         <input type="text" onChange={handleChange2} class="form-control" name="first_name" 
+//         placeholder="First Name" required="required" /></div>
+        
+//     <div class="col">
+//         <input type="text" onChange={handleChange2} class="form-control " name="last_name" 
+//         placeholder="Last Name" required="required" /></div>
+// </div> ;
+//      } 
+
+//    else {
+//     return <div class="row">
+//     <div  class="col">
+//         <input type="text" onChange={handleChange2} class="form-control" name="first_name" 
+//         placeholder="Publication Name" required="required" /></div>
+//         </div>;
+//  }
+//     };
+    
+//  export default Signup;

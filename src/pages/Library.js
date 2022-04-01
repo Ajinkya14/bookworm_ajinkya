@@ -57,16 +57,19 @@ function LangSelector({ updatelang, lang }) {
 function BooksDisplay({ lang }) {
 
     const [books, setBooks] = useState([]);
+    const IsLoggedIn=sessionStorage.getItem("IsLoggedIn");
+    const uid=sessionStorage.getItem("UserId");
+    const [disable,setDisable]=useState(false)
     // const []
     console.log(lang)
     useEffect(() => {
         if (lang != 0) {
-            fetch("http://localhost:8080/crud/searchlang/" + lang)
+            fetch("http://localhost:8080/crud/searchlang/" + lang+"/"+uid)
                 .then(res => res.json())
                 .then((result) => { setBooks(result); });
         }
         else {
-            fetch("http://localhost:8080/crud/products")
+            fetch("http://localhost:8080/crud/products/"+uid)
                 .then(res => res.json())
                 .then((result) => { setBooks(result); });
         }
@@ -83,10 +86,11 @@ function BooksDisplay({ lang }) {
             body: JSON.stringify(cart)
         };
         fetch(url,requestOptions)
-        .then(response => alert('Added to cart successfully'))
+        .then(response => {alert('Added to cart successfully');
+        setDisable(true);
+    })
         .catch(error => console.log('Form submit error: ', error))
         // Navigate('/');
-    
     }
     return (
         <Container fluid>
@@ -109,7 +113,7 @@ function BooksDisplay({ lang }) {
                                 </Card.Text>
                                 </Link>
                                 <div style={{paddingLeft:"25px"}}>
-                                <Button variant="primary"  onClick={()=>{submitHandler(book.productId)}} >Add to Cart</Button></div>
+                                <Button variant="primary"  onClick={()=>{submitHandler(book.productId)}}>Add to Cart</Button></div>
                             </Card.Body>
                         </Card>
                     </Col>

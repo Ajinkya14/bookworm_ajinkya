@@ -1,7 +1,23 @@
-.signup-body {
-	color: rgb(80, 48, 224);
-	background: #0d72bb;
+
+
+
+
+
+
+body {
+	color: #fff;
+	/* background: #16be7e; */
+	/* background: #FFA17F;  fallback for old browsers */
+	background-color: #fff;
+background-image: linear-gradient(135deg,#c5c6cd 100%, #fff 0% );
+
+
+
+	
+
+	/* background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%); */
 	font-family: 'Roboto', sans-serif;
+	
 }
     .form-control{
 		height: 41px;
@@ -17,7 +33,17 @@
     }
 	.signup-form{
 		width: 390px;
-		margin: 30px auto;
+		/* margin: 30px auto; */
+		margin-left: 65%;
+		margin-top: 3%;
+		
+	}
+	.img-fluid{
+		width: 390px;
+		/* margin: 30px auto; */
+		margin-left: 50%;
+		margin-top: 5%;
+
 	}
 	.signup-form form{
 		color: #999;
@@ -97,6 +123,47 @@
 		color: rgb(0, 0, 0);
 	  }
 	  .btn-group .button:checked {
-		background-color: #ffffff;
+		background-color: #4d66d8;
 		color: rgb(0, 0, 0);
 	  }
+
+	  .btn-group #bt1:checked{
+		background-color: #8f2525;
+		color: rgb(0, 0, 0);
+	  }
+	  
+	  
+
+	   
+	   .btn-grad {
+		   background-image: linear-gradient(to right, #1CD8D2 0%, #93EDC7  51%, #1CD8D2  100%)}
+	   .btn-grad {
+		  margin: 10px;
+		  padding: 15px 45px;
+		  text-align: center;
+		  text-transform: uppercase;
+		  transition: 0.5s;
+		  background-size: 200% auto;
+		  color: white;            
+		  box-shadow: 0 0 20px #eee;
+		  border-radius: 10px;
+		  display: block;
+		}
+
+		.btn-grad:hover {
+		  background-position: right center; /* change the direction of the change here */
+		  color: #fff;
+		  text-decoration: none;
+		}
+	   .footer
+	   {
+		background-color: #c5c6cd; 
+		text-decoration: #ffffff;
+		
+	   }
+	  
+
+	  /* .btn-group .button:checked {
+		background-color: #b13333;
+		color: rgb(0, 0, 0);
+	  } */

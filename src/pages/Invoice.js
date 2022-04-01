@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import { string } from 'yup';
 import { Table ,Button, Container,ToastBody, Row,Col} from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import Navigationbar from './Navigationbar';
 export function Invoice(props) 
 {
+    const uid=sessionStorage.getItem("UserId");
     const [product, setProduct] = useState([]);
     const [invoiceObj, setInvoiceObj] = useState({});
     const [count, setCount] = useState(0);
@@ -13,7 +15,7 @@ export function Invoice(props)
     const [tot,setTot]=useState(0); 
     const [invId,setInvId]=useState(0); 
     const [invDt,setInvDt]=useState(0);
-    const uid=sessionStorage.getItem("UserId");
+   
     
     const [cartItems,setCartItems]=useState([]);
 
@@ -65,6 +67,7 @@ export function Invoice(props)
 
 
     return (
+        <><Navigationbar/>
         <div>
             <br />
             <h2>Invoice</h2><br />
@@ -129,7 +132,7 @@ export function Invoice(props)
                 </Row>
             </Container>
         </div>
-
+        </>
     )
 
 }

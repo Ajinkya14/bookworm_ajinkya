@@ -1,9 +1,11 @@
 import React from "react";
 import {Button, Container, Row, Col} from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import Navigationbar from "./Navigationbar";
 
 function Home() {
     return (
+        <><Navigationbar/>
         <Container fluid>
         <div>
             <Row>
@@ -23,7 +25,7 @@ function Home() {
                     
                 </Row>
         </div>
-        </Container>
+        </Container></>
     );
 }
 

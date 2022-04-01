@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Routes ,Outlet} from 'react-router-dom'
 import Signup from './pages/Signup';
 import Navigationbar from './pages/Navigationbar';
 import Home from './pages/Home';
-import Library from './pages/Library';
+import Library from './pages/Library2';
 import About from './pages/About';
 import Login from './pages/Login';
 import Feedback from 'react-bootstrap/esm/Feedback';
@@ -14,6 +14,10 @@ import Shelf from './pages/Shelf';
 import Cart from './pages/Cart';
 import { useState } from 'react';
 import Description from './pages/Description';
+import AddProduct from './pages/AddProduct2';
+import PublisherProduct from './pages/PublisherProduct';
+import Edit from './pages/Edit';
+import Profile from './pages/Profile';
 
 function App() {
 
@@ -30,12 +34,16 @@ function App() {
     setProducts(Prod);
   }
   return (
-    <div className="App" style={{paddingTop:"50px"}}>
+    <div className="App" style={{paddingTop:"0px"}}>
       <Router>
         <Routes>
-          {/* <Route exact path="/" element={<Navigationbar/>}> */}
+           <Route exact path="/" element={<Navigationbar/>}></Route>
             <Route index element={<Home/>}></Route>
+            <Route path='/Profile' element={<Profile/>}></Route>
             <Route path='/Library' element={<Library/>}></Route>
+            <Route path='/AddProduct' element={<AddProduct/>}></Route>
+            <Route path='/PublisherProduct/:Id' element={<PublisherProduct/>}></Route>
+            <Route path='/Edit/:Id' element={<Edit/>}></Route>
             <Route path='/About' element={<About/>}></Route>
             <Route path='/Signup' element={<Signup/>}></Route>
             <Route path='/Login' element={<Login/>}></Route>
@@ -46,9 +54,8 @@ function App() {
             <Route path='/Description/:id' element={<Description/>}></Route>
             <Route path='/Payment' element={<Payment prod={products}/>}/>
 
-            <Route path='/Invoice' element={<Invoice prod={products}/>}/>
-
-          {/* </Route> */}
+            <Route path='/Invoice' element={<Invoice prod={products}/>}> </Route> 
+         
         </Routes>
       </Router>
     </div>

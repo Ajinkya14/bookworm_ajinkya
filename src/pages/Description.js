@@ -1,23 +1,82 @@
 import React from 'react';
 import '../pages/description.css';
-import Datetime from 'react-datetime';
+//import Datetime from 'react-datetime';
 import {useState, useEffect} from "react";
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams,useNavigate } from "react-router-dom"
+import Navigationbar from './Navigationbar';
 
 
 export function Description(props) {
     const [Product, setProduct] = useState({});
+    const [disc,setDisc]=useState("");
+    const [showPrice,setShowPrice]=useState(0);
     const { id } = useParams()
+    const navigate=useNavigate();
     useEffect(() => {
         fetch("http://localhost:8080/crud/search/" + id)
             .then(res => res.json())
             .then((result) => { setProduct(result); 
+                    discCalc(result);
             }
             );
     }, []);
 
+    const discCalc=(result)=>{
+        let d1=new Date(result.productOfferpriceExpirydate);
+        let sp=result.productSpCost;
+        let ofp=result.productOfferprice;
+        let d2=Date.now();
+        if(d1-d2>=0)
+        {
+            let s=((sp-ofp)/sp*100).toString();
+            setDisc(s.substring(0,4))
+            setShowPrice(ofp);
+        }
+        else
+        {
+            setDisc("0");
+            setShowPrice(sp);
+        }
+        
+
+    }
+    var date_diff_indays = function(date1, date2) {
+        let dt1 = new Date(date1);
+        let dt2 = new Date(date2);
+      
+        var diff=dt2.getTime()-dt1.getTime();
+            console.log(diff/(1000*3600*24))
+        return diff/(1000*3600*24)+1;
+
+          }
+
+
+    const buyhandler=(id)=>
+    {
+        const cart={'productId':id,'userId':1,'isSelected':'Y'}
+        const url="http://localhost:8080/crud/buyDirect"
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cart)
+        }
+            fetch(url,requestOptions)
+            .then(res => res.json())
+        .then((result) => {
+            if(result=="You have Already purchased this Book !!!")
+            alert(result)
+            else
+            navigate("/Payment")
+
+        })
+        //.then(response =>{ navigate("/Payment")})
+        .catch(error => console.log('Form submit error: ', error))
+    };
+
+    
+
     const submitHandler=(id)=>{
-        const cart={'productId':id,'userId':1}
+        const cart={'productId':id,'userId':1,'isSelected':'N'}
         const url="http://localhost:8080/crud/addtocart"
         const requestOptions = {
             method: 'POST',
@@ -25,41 +84,45 @@ export function Description(props) {
             body: JSON.stringify(cart)
         };
         fetch(url,requestOptions)
-        .then(response => alert('Added to cart successfully'))
+        .then(res => res.json())
+        .then(response => alert(response))
         .catch(error => console.log('Form submit error: ', error))
         // Navigate('/');
     
     }
   return (
-
+    <><Navigationbar/>
     <div className="container">
-    <div className="card">
-
-
     
-
-                <div className="card-body">
-
-       
-       
-
+    <div className="card">
+        <div className="card-body">
             <h2 className="card-title">{Product.productName}</h2>
             <div className="row">
                 <div className="col-lg-5 col-md-5 col-sm-6">
-                    <div className="white-box text-center"><img src={Product.productImage} className="img-responsive"/></div>
+                    <div className="white-box text-center"><img height="320px" width="240px" src={"../images/"+Product.productImage} className="img-responsive"/></div>
                 </div>
                 <div className="col-lg-7 col-md-7 col-sm-6">
                     <h4 className="box-title mt-5">Product description</h4>
                     <p>{Product.productDescLong}</p>
-                    <h2 className="mt-5">
-                    ₹ :{Product.productBaseprice}<small className="text-success">(36%off)</small>
+                    {date_diff_indays(new Date().toDateString(),Product.productOfferpriceExpirydate)>0?
+                        <h3 className="mt-2">
+                       <del>Price  ₹ : {Product.productSpCost}</del>
+                        </h3>
+                    :""}
+                   
+                    <h2 className="mt-2">
+                    ₹ :{showPrice}<small className="text-success">({disc}% off)</small>
                     </h2>
+                    {date_diff_indays(new Date().toDateString(),Product.productOfferpriceExpirydate)>0?<h4 className="mt-2">
+                        Offer will expire in {date_diff_indays(new Date().toDateString(),Product.productOfferpriceExpirydate)} days.
+                    </h4>:<h4>Offer Not available</h4>}
+                    
                      {/* <button className="btn btn-dark btn-rounded mr-1" data-toggle="tooltip" title="" data-original-title="Add to cart">
                         <i className="fa fa-shopping-cart"></i>
                     </button>  */}
                     <button className="btn btn-primary btn-rounded" onClick={()=>{submitHandler(Product.productId)}}>Add to Cart </button>
                     
-                    <button className="btn btn-primary btn-rounded">Buy Now</button>
+                    <button className="btn btn-primary btn-rounded" onClick={()=>{buyhandler(Product.productId)}}>Buy Now</button>
                     <h3 className="box-title mt-5">Key Highlights</h3>
                     <ul className="list-unstyled">
                         <li><i className="fa fa-check text-success"></i>Free Reading</li>
@@ -86,7 +149,7 @@ export function Description(props) {
                                 </tr>
                                 <tr>
                                     <td>Offer Price Expiry Date :</td>
-                                    <td>{Product.productOfferpriceExpirydate}</td>
+                                    <td>{new Date(Product.productOfferpriceExpirydate).toDateString()}</td>
                                 </tr>
                                 <tr>
                                     <td>Product Description Short :</td>
@@ -146,7 +209,7 @@ export function Description(props) {
         
 </div>
 </div>
-
+</>
             
 
   );

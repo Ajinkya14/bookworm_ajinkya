@@ -1,8 +1,9 @@
 import React from 'react';
 import './feedback.css';
+import Navigationbar from './Navigationbar';
 const Feedback = () => {
     return (
-        <>
+        <><Navigationbar/>
             <div className="content">
                 <header>
                     <h1>Feel free to drop us your feedback.</h1>

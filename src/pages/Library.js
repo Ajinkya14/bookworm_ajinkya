@@ -1,27 +1,50 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Col, Container, Row, Button, Card ,Alert } from "react-bootstrap";
 import {Link} from "react-router-dom";
+import Navigationbar from "./Navigationbar";
 
-function Library() {
+function Library() 
+{
+   
     const [lang, setlang] = useState(0);
+    const [tran,setTran]=useState("");
     console.log(lang);
     const changeGenre = useCallback((value) => {
         //console.log(value)
         setlang(value);
         // console.log(lang);
     }, [lang]);
+
+    const onButton= (event) => 
+    {
+        if(event.target.value=="buy")
+        setTran("buy");
+        else
+        setTran("rent")
+    };
+
+
+
+
     return (
+        <><Navigationbar/>
         <Container fluid style={{ textAlign: 'left' }}>
             <Row style={{ padding: '20px' }}>
                 <Col xs={2}><h2><b>bookWorm</b></h2></Col>
                 <Col xs={8}><h2>Books</h2></Col>
+               {/*  <Col xs={6}>
+                <div class="btn-group" >
+                    <button id="bt1" onClick={onButton}  value="buy" class="button">Buy</button>
+                    <button id="bt2" onClick={onButton} value="rent"  class="button">Rent</button>
+                        </div>
+                </Col> */}
                 <Col xs={2}><Link to="/Cart"> <Button variant="primary" style={{align:'right'}}>Visit Cart{'>'}</Button></Link></Col>
             </Row>
             <Row>
                 <Col xs={2}><h2><b><LangSelector updatelang={changeGenre} lang={lang} /></b></h2></Col>
                 <Col xs={9}><h2><BooksDisplay lang={lang} /></h2></Col>
             </Row>
-        </Container>
+        </Container></>
     );
 }
 
@@ -54,22 +77,22 @@ function LangSelector({ updatelang, lang }) {
     );
 }
 
-function BooksDisplay({ lang }) {
-
+function BooksDisplay({ lang }) 
+{
+    const UserId=sessionStorage.getItem("UserId");
     const [books, setBooks] = useState([]);
-    const IsLoggedIn=sessionStorage.getItem("IsLoggedIn");
-    const uid=sessionStorage.getItem("UserId");
-    const [disable,setDisable]=useState(false)
     // const []
     console.log(lang)
     useEffect(() => {
         if (lang != 0) {
-            fetch("http://localhost:8080/crud/searchlang/" + lang+"/"+uid)
+            fetch("http://localhost:8080/crud/searchlang/" + lang)
                 .then(res => res.json())
                 .then((result) => { setBooks(result); });
         }
-        else {
-            fetch("http://localhost:8080/crud/products/"+uid)
+        else 
+        {
+            
+            fetch("http://localhost:8080/crud/products")
                 .then(res => res.json())
                 .then((result) => { setBooks(result); });
         }
@@ -77,8 +100,10 @@ function BooksDisplay({ lang }) {
 
     // let navigate = useNavigate();
 
-    const submitHandler=(id)=>{
-        const cart={'productId':id,'userId':1,'isSelected':'n'}
+    const submitHandler=(id)=>
+    {
+
+        const cart={'productId':id,'userId':UserId,'isSelected':'Y'}
         const url="http://localhost:8080/crud/addtocart"
         const requestOptions = {
             method: 'POST',
@@ -86,11 +111,12 @@ function BooksDisplay({ lang }) {
             body: JSON.stringify(cart)
         };
         fetch(url,requestOptions)
-        .then(response => {alert('Added to cart successfully');
-        setDisable(true);
-    })
-        .catch(error => console.log('Form submit error: ', error))
+        .then(res => res.json())
+        .then((result) => {alert(result)})
+        
+       
         // Navigate('/');
+    
     }
     return (
         <Container fluid>
@@ -100,20 +126,20 @@ function BooksDisplay({ lang }) {
             <Row>
                 {books.map(book => (
 
-                    <Col xs={3} style={{padding:"5px"}}>
-                        <Card>
+                    <Col xs={3}>
+                        <Card >
                         {/* <Card.Img variant="top" src={book.productImage+"/190px280"} /> */}
-                            <img src={book.productImage} height="280px"></img>
+                            <img src={"../images/"+book.productImage} width="170px" height="250px"></img>
                             {/* keep image size horizontal 190 px */}
                             <Card.Body>
                             <Link to={"/Description/"+book.productId} style={{textDecorationLine:"none"}}>
-                            <Card.Title>{book.productName}</Card.Title>
-                                <Card.Text>
+                            <Card.Title><b>{book.productName}</b></Card.Title>
+                                {/* <Card.Text>
                                     <h6 style={{textAlign:"center"}}>{book.productDescShort}</h6>
-                                </Card.Text>
+                                </Card.Text> */}
                                 </Link>
                                 <div style={{paddingLeft:"25px"}}>
-                                <Button variant="primary"  onClick={()=>{submitHandler(book.productId)}}>Add to Cart</Button></div>
+                                <Button variant="primary"  onClick={()=>{submitHandler(book.productId)}} >Add to Cart</Button></div>
                             </Card.Body>
                         </Card>
                     </Col>

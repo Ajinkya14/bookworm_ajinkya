@@ -1,11 +1,12 @@
 import React from 'react';
 import './about.css';
+import Navigationbar from './Navigationbar';
 
 
 function About(){
     
     return (
-    
+        <><Navigationbar/>
         <section className="about" id="about">
             <div className="container">
                 <div className="heading text-center">
@@ -174,7 +175,7 @@ function About(){
       </div>
 </footer>
   
-    </section>
+    </section></>
     );
 };
 export default About;

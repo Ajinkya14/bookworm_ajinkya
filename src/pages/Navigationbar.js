@@ -1,44 +1,52 @@
-import {React,memo, useEffect, useState} from "react";
+import React, { useEffect, useState,useForceUpdate ,Redirect} from "react";
+import { useRef } from "react";
 import {Container,Nav,Navbar,NavDropdown } from "react-bootstrap";
-import { Outlet } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
+import NaviBar from "./NaviBar";
+import PublisherNav from "./PublisherNav";
+import UserNav from "./UserNav";
+
 
 function Navigationbar()
 {
-  // const [test,setTest]=useState(0);
-  // window.setInterval(()=>{setTest(test+1)},5000)
-    return(<>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" style={{fontSize:"17px"}} fixed="top">
-  <Container>
-  <Navbar.Brand href="#home">bookWorm.com</Navbar.Brand>
-  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-  <Navbar.Collapse id="responsive-navbar-nav">
-    <Nav className="me-auto">
-      <Nav.Link href="/">Home</Nav.Link>
-      <Nav.Link href="/Library">Library</Nav.Link>
-      {/* {(test%2==0?<Nav.Link href="/Help">Help</Nav.Link>:"Bye")} */}
-      <Nav.Link href="/Shelf">My Shelf</Nav.Link>
-      <Nav.Link href="/About">About Us</Nav.Link>
-      <Nav.Link href="/">Contact Us</Nav.Link>
-      <Nav.Link href="/Feedback">Feedback</Nav.Link>
-    </Nav>
-    <Nav>
-      <Nav.Link href="/Signup">Signup</Nav.Link>
-      <Nav.Link href="/Login">Login</Nav.Link>
-      <Nav.Link href="/Cart">Cart</Nav.Link>
-      <Nav.Link href="/Login" onClick={()=>{sessionStorage.removeItem("UserId");
-      sessionStorage.removeItem("RoleId");
-      sessionStorage.removeItem("UserName")
-      sessionStorage.setItem("IsLoggedIn",false)}
-      }>Logout</Nav.Link>
-    </Nav>
-  </Navbar.Collapse>
+   const [uuid,setuuid]=useState(0);
+   const [rrid,setrrid]=useState(0);
+  const [isLoggedIn,setisLoggedIn]=useState(false);
+  const [count,setCount]=useState(0);
   
   
-  </Container>
+
   
-</Navbar>
-<Outlet/>
-</>
-    );
+  useEffect(()=>{ 
+ setuuid(sessionStorage.getItem("UserId"));
+setrrid(sessionStorage.getItem("RoleId"));
+setisLoggedIn(sessionStorage.getItem("IsLoggedIn"));
+
+  }
+  )
+
+  // function PPP(){
+  //   setCount(count+1);
+  // }
+function removeUser(){
+  sessionStorage.removeItem("UserId");
+  sessionStorage.removeItem("RoleId");
+   sessionStorage.removeItem("IsLoggedIn");
+
 }
-export default memo(Navigationbar);
+if(isLoggedIn&&rrid==2)
+{
+return (<PublisherNav isLoggedIn={isLoggedIn} rrid={rrid} removeUser={removeUser}/>);
+}
+if(isLoggedIn&&rrid==1)
+{
+return (<UserNav isLoggedIn={isLoggedIn} rrid={rrid} removeUser={removeUser}/>);
+}
+else{
+  return(<NaviBar isLoggedIn={isLoggedIn} rrid={rrid} removeUser={removeUser}/>)
+}
+
+       
+}
+export default Navigationbar;
+

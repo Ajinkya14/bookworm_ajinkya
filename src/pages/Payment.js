@@ -6,18 +6,20 @@ import { useNavigate } from 'react-router-dom';
 import { Table ,Button, Container, Row,Col} from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Modal } from 'bootstrap';
+import Navigationbar from './Navigationbar';
 export function Payment (props) 
 {
   const [product, setProduct] = useState([]);
+  const uid=sessionStorage.getItem("UserId");
   const [total, setTotal] = useState(0);
   const [invoice,setInvoice]=useState({})
   const [payStatus,setPayStatus]=useState(false)
   const navigate= useNavigate();
 
-  const uid=sessionStorage.getItem("UserId");
+  
   useEffect(() => 
   {
-    fetch("http://localhost:8080/crud/totalfromcart/"+uid)
+    fetch("http://localhost:8080/crud/getTotalAmt/"+uid)
     .then(res => res.json())
     .then((result) => { setTotal(result);
     console.log(result) 
@@ -72,7 +74,7 @@ export function Payment (props)
       if(payStatus==true)
       {
         return (
-            
+            <><Navigationbar/>
             <div id='successDiv'><br/>
               <h3>Your payment is Successful</h3>
               <h4><a href="/Invoice">See The Invoice</a></h4>
@@ -83,7 +85,7 @@ export function Payment (props)
                     </Col>
                 </Row>
             </Container>
-            </div>
+            </div></>
             )
       }
       else{

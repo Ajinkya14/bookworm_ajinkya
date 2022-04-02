@@ -1,11 +1,12 @@
 import React from 'react';
+import Navigationbar from './Navigationbar';
 
 
 function Help() 
 {
     
        return (
-        
+        <><Navigationbar/>
   <section id="pricing" class="pricing">
     <br/><br/>
     <div class="container mx-auto" data-aos="fade-up">
@@ -99,7 +100,7 @@ function Help()
     </div>
 
   </section>
-
+  </>
        )
     
  }

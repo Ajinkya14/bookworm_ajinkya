@@ -1,28 +1,34 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState, useEffect } from "react";
 import { Table ,Button, Container, Row,Col} from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import Navigationbar from './Navigationbar';
 export default function Cart(props){
     const uid=sessionStorage.getItem("UserId");
-    // const uid=1;
     const [delcount,setDelcount]=useState(0);
     const [cartItems,setCartItems]=useState([]);
     const [selectCount,setSelectCount]=useState(0);
     const [total,setTotal]=useState("");
+    const [btnState,setbtnState]=useState(false)
+    const btn=useRef();
+    let navigate = useNavigate();
     
-    
-    //use effect Hook
-    useEffect(()=>{
+    useEffect(()=>
+    {
         fetch("http://localhost:8080/crud/productsfromcart/"+uid)
         .then(res => res.json())
         .then((result) =>  {setCartItems(result);
             
         } );
-        fetch("http://localhost:8080/crud/totalfromcart/"+uid)
+        fetch("http://localhost:8080/crud/getTotalAmt/"+uid)
         .then(res=>res.json())
         .then((result)=>{setTotal(result);
         console.log(total);
-    })
+        if(result==0)
+        setbtnState(true);
+        else
+        setbtnState(false);
+            })
     },[delcount,selectCount]
     )
 
@@ -35,13 +41,13 @@ export default function Cart(props){
     }
 
 
-    const checkHandler=(e)=>{
+    const checkHandler=(e)=>
+    {
 
         console.log('inside check handler')
         const checked = e.target.checked;
         if (checked) {
             console.log('inside if');
-                   
             let temp=cartItems.find((item)=>item[0].cartId==e.target.value);
             temp[0].isSelected='y';
             console.log(cartItems);
@@ -49,26 +55,23 @@ export default function Cart(props){
         else {
             let temp= cartItems.find(item=>item[0].cartId==e.target.value);
             temp[0].isSelected='n';
-            console.log(cartItems)
+            console.log(cartItems);
+            
+           
         }
         
         submitHandler();
 
       }
-
-
-
-
-
         const submitHandler=()=>{
             console.log('inside submit handler')
             let user=cartItems.map((item)=>item[0]);
-       
+            
             console.log('inside submit handler');
             console.log(user);
             const url = 'http://localhost:8080/crud/addSelected'
             const requestOptions = {
-                method: 'PUT',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(user)
             };
@@ -78,10 +81,16 @@ export default function Cart(props){
                 .catch(error => console.log('Form submit error: ', error))
                
             //     console.log(user);
+            
         
+        }
+
+        const onPayment=()=>{
+                navigate("/Payment")
         }
    
     return(
+        <><Navigationbar/>
         <div style={{paddingTop:'20px'}}>
             <Table>
             <thead>
@@ -137,11 +146,11 @@ export default function Cart(props){
                  </Row>
                 <Row>
                     <Col>
-                    <Link to="/Payment"> <Button variant="primary" style={{align:'center',fontSize:"17px"}} >Proceed To Payment Page {'>'}</Button></Link>
+                     <Button onClick={onPayment} disabled={btnState} variant="primary" style={{align:'center',fontSize:"17px"}} >Proceed To Payment Page {'>'}</Button>
                     </Col>
                 </Row>
             </Container>
-        </div>
+        </div></>
     );
 }
 

@@ -5,11 +5,15 @@ import { Formik } from "formik";
 import * as yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import './Signup.css';
+
  
+
+
+
+
 function Login() {
   let navigate = useNavigate();
-  const [user, setUser] = useState({roleId:1});
+  const [user, setUser] = useState({role_id:1});
   const [customer, setCustomer] = useState({});
 
   const [usertype, SetUserType] = useState(true);
@@ -17,7 +21,6 @@ function Login() {
 
   const handleChange = (event) => {
     const name = event.target.name;
-    console.log(name);
     const value = event.target.value;
     setUser(values => ({ ...values, [name]: value }))
   }
@@ -28,52 +31,51 @@ function Login() {
   {
     
             var url;
-            if (user.roleId == 1)
+            if (user.role_id == 1)
             {
             url = "http://localhost:8080/crud/getUser/";
             console.log(url)
             event.preventDefault();
-            fetch(url+user.userName)
+            fetch(url+user.user_name)
           .then(res=>res.json())
           .then((result)=>{
             setCustomer(result)
             console.log(result)
-            if(user.userName == result.userName && result.password == user.password)
+            if(user.user_name == result.user_name && result.password == user.password)
             {
-              sessionStorage.setItem("UserName", result.firstName);
-              sessionStorage.setItem("UserId", result.userId);
-              sessionStorage.setItem("RoleId", result.roleId);
+              sessionStorage.setItem("Name", result.first_name);
+              sessionStorage.setItem("LastName", result.last_name);
+              sessionStorage.setItem("UserId", result.user_id);
+              sessionStorage.setItem("RoleId", result.role_id);
               sessionStorage.setItem("IsLoggedIn",true)
-              alert("You have successfully logged in !!!!")
-              navigate("/Library",result)
+              navigate("/",result)
             }
             else
             { 
-                alert("Wrong Userid or password")
               console.log("hhhhhh");
               navigate("/Login")
             }
           })
           .catch(error => console.log('Form submit error: ', error));
             }
-            if (user.roleId == 2)
+            if (user.role_id == 2)
             {
               url = "http://localhost:8080/crud/benificiarysearch/";
               console.log(url)
             event.preventDefault();
-            fetch(url+user.userName)
+            fetch(url+user.ben_user_name)
           .then(res=>res.json())
           .then((result)=>{
             setCustomer(result)
             console.log(result)
-            if(user.userName == result.userName && result.password == user.password)
+            if(user.ben_user_name == result.benUserName && result.benPassword == user.ben_password)
             {
-              sessionStorage.setItem("UserName", result.userName);
-              sessionStorage.setItem("UserId", result.userId);
+              sessionStorage.setItem("Name", result.benName);
+              sessionStorage.setItem("UserId", result.benId);
               sessionStorage.setItem("RoleId", 2);
               sessionStorage.setItem("IsLoggedIn",true)
               alert("You have successfully logged in !!!!")
-              navigate("/Payment",result)
+              navigate("/",result)
             }
             else
             { 
@@ -82,7 +84,9 @@ function Login() {
             }
           })
           .catch(error => console.log('Form submit error: ', error));
-            }         
+            }
+           
+             
 
   }
   
@@ -90,16 +94,15 @@ function Login() {
 
 
   const onButton = (event) => {
-    alert(event.target.value)
+    
     if (event.target.value == "user") {
       SetUserType(true);
-      setUser({ roleId: 1 })
+      setUser({ role_id: 1 })
 
     }
     if (event.target.value == "publisher") {
       SetUserType(false);
-      setUser({ roleId: 2 })
-      alert(usertype);
+      setUser({ role_id: 2 })
     }
   };
 
@@ -115,13 +118,12 @@ function Login() {
           <button id="bt1" value="user" onClick={onButton} class="button">User</button>
           <button id="bt2" value="publisher" onClick={onButton} class="button">Publisher</button>
         </div>
-        <h2>Log In</h2>
-        <p>Please login here!</p>
+        
 <ChangeButton isClicked={usertype} handleChange={handleChange}/>
      </form>
-      <div className="hint-text">Dont have an account? <a href="#">Signup Now</a></div>
-      Customer: {customer.userName}
-      Customer: {customer.userName}
+      <div className="hint-text">Dont have an account? <a href="/Signup">Signup Now</a></div>
+      Customer: {customer.user_name}
+      Customer: {customer.user_name}
     </div>
 
   );
@@ -130,11 +132,13 @@ function Login() {
 
 const ChangeButton = (props) => {
   let {isClicked,handleChange} = props;
-  if (!isClicked) 
+  if (isClicked) 
   {
  return <>
+ <h2>User Log In</h2>
+        <p>Please login here!</p>
         <div className="form-group">
-          <input type="text" className="form-control" name="userName" placeholder="User ID" required="required"
+          <input type="text" className="form-control" name="user_name" placeholder="User ID" required="required"
             onChange={handleChange} />
         </div>
         <div className="form-group">
@@ -142,7 +146,7 @@ const ChangeButton = (props) => {
             required="required" onChange={handleChange} />
         </div>
         <div className="form-group">
-          <button type="submit" className="btn-grad" >Log In</button>
+          <button type="submit" className="btn-grad">Log In</button>
         </div>
 
 </>
@@ -152,14 +156,15 @@ const ChangeButton = (props) => {
 else {
  return <>
  
- 
+ <h2>Publisher Log In</h2>
+        <p>Please login here!</p>
 
         <div className="form-group">
-          <input type="text" className="form-control" name="userName" placeholder="User ID" required="required"
+          <input type="text" className="form-control" name="ben_user_name" placeholder="User ID" required="required"
             onChange={handleChange} />
         </div>
         <div className="form-group">
-          <input type="password" className="form-control" name="password" placeholder="Password"
+          <input type="password" className="form-control" name="ben_password" placeholder="Password"
             required="required" onChange={handleChange} />
         </div>
         <div className="form-group">
@@ -174,72 +179,3 @@ else {
  };
 
 export default Login;
-
-
-// import {Form,Button,Row,Col,InputGroup, Container} from "react-bootstrap";
-// import React from 'react';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import { Formik } from "formik";
-// import * as yup from 'yup';
-// import { useParams,useNavigate } from "react-router-dom";
-// import { useState } from "react";
-// import './Signup.css';
-
-
-                
-// function Login(){
-//   const [user, setUser] = useState({roleId:1});
-//   const [usertype,SetUserType]= useState(true);
-
-//   let navigate = useNavigate();
- 
-//   const handleChange = (event) => {
-//       const name = event.target.name;
-//       const value = event.target.value;
-//       setUser(values => ({ ...values, [name]: value }))
-//   }
-//   const handleSubmit = event => {
-      
-//   alert("on submit");
-//       const url = 'https://localhost:44385/api/User_Details/'
-//       const requestOptions = {
-//           method: 'POST',
-//           headers: { 'Content-Type': 'application/json' },
-//           body: JSON.stringify(user)
-//       };
-//       fetch(url, requestOptions)
-//           .then(response => {console.log('Submitted successfully');alert(response);})
-//           .catch(error => console.log('Form submit error: ', error))
-//           navigate("/")
-//           console.log(user);
-//           // event.preventDefault();
-//     };
-
-//   return (
-//     <div class="signup-form">
-        
-//     <form onSubmit={handleSubmit}>
-    
-// 		<h2>Log In</h2>
-// 		<p>Please login here!</p>
-        
-//         <div class="form-group">
-//         	<input type="text" class="form-control" name="userId" placeholder="User ID" required="required"
-//             onChange={handleChange}/>
-//         </div>
-// 		<div class="form-group">
-//             <input type="password" class="form-control" name="password" placeholder="Password" 
-//             required="required" onChange={handleChange}/>
-//         </div>
-// 		<div class="form-group">
-//             <button type="submit" class="btn btn-primary btn-lg">Log In</button>
-//         </div>
-//     </form>
-// 	 <div class="hint-text">Dont have an account? <a href="#">Signup Now</a></div> 
-// </div>
-      
-//   );
-// }
-
-    
-//  export default Login;

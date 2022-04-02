@@ -136,7 +136,7 @@ function BooksDisplay({ lang })
                             <Card.Title><b>{book.productName}</b></Card.Title>
                                 </Link>
                                 <div >
-                                <Button variant="primary"  onClick={()=>{submitHandler(book.productId)}} >Add to Cart</Button></div>
+                                <Button   variant="primary"  onClick={()=>{submitHandler(book.productId)}} >Add to Cart</Button></div>
                             </Card.Body>
                         </Card>
                     </Col>   

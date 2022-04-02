@@ -35,7 +35,7 @@ function App() {
   }
   return (
     <div className="App" style={{paddingTop:"0px"}}>
-      <Router>
+      <Router  >
         <Routes>
            <Route exact path="/" element={<Navigationbar/>}></Route>
             <Route index element={<Home/>}></Route>

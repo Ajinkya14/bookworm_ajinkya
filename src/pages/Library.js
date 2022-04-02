@@ -132,11 +132,8 @@ function BooksDisplay({ lang })
                             <img src={"../images/"+book.productImage} width="170px" height="250px"></img>
                             {/* keep image size horizontal 190 px */}
                             <Card.Body>
-                            <Link to={"/Description/"+book.productId} style={{textDecorationLine:"none"}}>
+                            <Link to={"/Description/"+book.productId} style={{textDecorationLine:"none"}}   >
                             <Card.Title><b>{book.productName}</b></Card.Title>
-                                {/* <Card.Text>
-                                    <h6 style={{textAlign:"center"}}>{book.productDescShort}</h6>
-                                </Card.Text> */}
                                 </Link>
                                 <div >
                                 <Button variant="primary"  onClick={()=>{submitHandler(book.productId)}} >Add to Cart</Button></div>

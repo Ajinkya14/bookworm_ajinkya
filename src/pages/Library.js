@@ -126,7 +126,7 @@ function BooksDisplay({ lang })
             <Row>
                 {books.map(book => (
 
-                    <Col xs={3}>
+                    <Col xs={3} style={{padding:"5px"}}>
                         <Card >
                         {/* <Card.Img variant="top" src={book.productImage+"/190px280"} /> */}
                             <img src={"../images/"+book.productImage} width="170px" height="250px"></img>
@@ -138,11 +138,11 @@ function BooksDisplay({ lang })
                                     <h6 style={{textAlign:"center"}}>{book.productDescShort}</h6>
                                 </Card.Text> */}
                                 </Link>
-                                <div style={{paddingLeft:"25px"}}>
+                                <div >
                                 <Button variant="primary"  onClick={()=>{submitHandler(book.productId)}} >Add to Cart</Button></div>
                             </Card.Body>
                         </Card>
-                    </Col>
+                    </Col>   
 
                 ))}
             </Row>
